@@ -68,7 +68,7 @@ localStorage.setItem("Produtos", produtosString)
 
 // 1 - Adicionar 3 produtos no final do arry usando .push()
 
-// 2 - Usar o .filter() para achar o produto mais barato
+// 2 - Usar o .find() para achar o produto mais barato
 
 // 3 - Usar o .find() para achar algum produto pelo nome
 
