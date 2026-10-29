@@ -31,3 +31,14 @@ formCadastro.onsubmit = (event) => {
     // 5 - Salvar o novo json no local storage
     localStorage.setItem("Produtos", JSON.stringify(produtosLocalStorage))
 }
+
+const produtosLocalStorage = JSON.parse(localStorage.getItem("Produtos"))
+const listaProdutos = document.getElementById("itens")
+// Usar o .map() para escrever no html os produtos
+// '' apóstrofo ou aspas simples
+// "" aspas duplas
+// `` crase ${variavel}
+listaProdutos.innerHTML = 
+produtosLocalStorage.map((produto) => `
+    <li>${produto.nome} - <button>x</button></li>
+`).join("")
