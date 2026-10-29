@@ -119,7 +119,7 @@ const nomeProdutoDigitado = document.getElementById("nome").value
 const precoProdutoDigitado = Number(document.getElementById("preco").value)
 const categoriaProdutoDigitado = document.getElementById("categoria").value
 
-// 2 - Criar um objeto com esses valores
+// 2 --Criar um objeto com esses valores
 
 // 3 - Pegar os valores que estão no local storage (transformando eles em json)
 
