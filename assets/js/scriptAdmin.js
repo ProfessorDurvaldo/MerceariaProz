@@ -30,6 +30,7 @@ formCadastro.onsubmit = (event) => {
 
     // 5 - Salvar o novo json no local storage
     localStorage.setItem("Produtos", JSON.stringify(produtosLocalStorage))
+    location.reload()
 }
 
 const produtosLocalStorage = JSON.parse(localStorage.getItem("Produtos"))
@@ -39,6 +40,14 @@ const listaProdutos = document.getElementById("itens")
 // "" aspas duplas
 // `` crase ${variavel}
 listaProdutos.innerHTML = 
-produtosLocalStorage.map((produto) => `
-    <li>${produto.nome} - <button>x</button></li>
+produtosLocalStorage.map((produto, index) => `
+    <li>${index} - ${produto.nome} <button onclick="excluirProduto(${index})" >x</button></li>
 `).join("")
+
+
+function excluirProduto(index) {
+    console.log(`Vamos excluir o produto ${index}`)
+    produtosLocalStorage.splice(index, 1)
+    localStorage.setItem("Produtos", JSON.stringify(produtosLocalStorage))
+    location.reload()
+}
