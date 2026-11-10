@@ -1,0 +1,21 @@
+:root { --verde: #176b3b; --verde-escuro: #104b2a; --amarelo: #f7c948; }
+body { background: #f5f7f3; color: #213329; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+.site-header { background: linear-gradient(110deg, var(--verde-escuro), var(--verde)); box-shadow: 0 4px 18px #103c2417; }
+.brand-mark { display: inline-grid; place-items: center; width: 36px; height: 36px; margin-right: 7px; border-radius: 11px; background: var(--amarelo); color: var(--verde-escuro); }
+.eyebrow { color: var(--verde); font-size: .77rem; font-weight: 800; letter-spacing: .13em; }
+h1 { color: var(--verde-escuro); }
+.product-card { height: 100%; border: 1px solid #e6ede5; border-radius: 18px; overflow: hidden; box-shadow: 0 7px 24px #102f1b0d; transition: transform .2s ease, box-shadow .2s ease; }
+.product-card:hover { transform: translateY(-4px); box-shadow: 0 13px 30px #102f1b1c; }
+.product-card .card-body { padding: 1.5rem; }
+.product-icon { display: grid; place-items: center; height: 112px; background: linear-gradient(135deg, #e8f5e9, #f9f3d7); color: var(--verde); font-size: 2.4rem; font-weight: 800; }
+.category-badge { background: #e7f4e9; color: var(--verde-escuro); font-size: .75rem; font-weight: 700; }
+.product-price { color: var(--verde); font-size: 1.5rem; font-weight: 800; }
+.panel-card { border-radius: 18px; box-shadow: 0 7px 26px #102f1b0d; }
+.form-control { padding: .7rem .85rem; border-radius: 10px; }
+.form-control:focus { border-color: #4d9b6d; box-shadow: 0 0 0 .2rem #176b3b20; }
+.btn-brand { background: var(--verde); color: white; font-weight: 600; border-radius: 10px; padding: .65rem 1.2rem; }
+.btn-brand:hover { background: var(--verde-escuro); color: white; }
+.table thead th { background: #ecf4ed; color: var(--verde-escuro); font-size: .82rem; text-transform: uppercase; padding: 1rem; }
+.table tbody td { padding: 1rem; }
+.empty-state { padding: 3rem 1rem; border: 2px dashed #d6e5d8; border-radius: 18px; text-align: center; color: #66786b; background: white; }
+@media (max-width: 576px) { .display-6 { font-size: 1.9rem; } .table tbody td, .table thead th { padding: .75rem; } }

@@ -1,72 +1,52 @@
-// Create
 const formCadastro = document.getElementById("formCadastro")
-var isEditando = false
+const listaProdutos = document.getElementById("itens")
+let indiceEditando = null
+let produtosLocalStorage = JSON.parse(localStorage.getItem("Produtos")) || []
+const escapar = valor => String(valor).replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" })[c])
+const moeda = valor => Number(valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
 
-// 0 - Colocar tudo isso em um escutador de evento / função
-formCadastro.onsubmit = (event) => {
-    event.preventDefault()
-    // 1 - Pegar os valores digitados na tela e colocar em variaveis
-    const nomeProdutoDigitado = document.getElementById("nome").value
-    const precoProdutoDigitado = Number(document.getElementById("preco").value)
-    const categoriaProdutoDigitado = document.getElementById("categoria").value
-
-    // 2 - Criar um objeto com esses valores
-    const produto = {
-        nome: nomeProdutoDigitado,
-        preco: precoProdutoDigitado,
-        categoria: categoriaProdutoDigitado
-    }
-
-    // 3 - Pegar os valores que estão no local storage (transformando eles em json)
-    let produtosLocalStorage = JSON.parse(localStorage.getItem("Produtos"))
-    
-    if(!produtosLocalStorage) {
-        produtosLocalStorage = []
-    }
-
-    // 4 - usar o .push para colocar os valores nesse json
-    // Eu pego a variavel que eu criei no passo 3 e 
-    // dou push usando a variavel do passo 2
-    if (isEditando) {
-        produtosLocalStorage[isEditando] = produto
-    } else {
-        produtosLocalStorage.push(produto)
-    }
-
-    // 5 - Salvar o novo json no local storage
-    localStorage.setItem("Produtos", JSON.stringify(produtosLocalStorage))
-    location.reload()
+function renderizarProdutos() {
+    listaProdutos.innerHTML = produtosLocalStorage.length ? produtosLocalStorage.map((produto, index) => `
+        <tr>
+            <td class="fw-semibold">${escapar(produto.nome)}</td>
+            <td><span class="badge rounded-pill category-badge">${escapar(produto.categoria)}</span></td>
+            <td>${moeda(produto.preco)}</td>
+            <td class="text-end">
+                <button class="btn btn-sm btn-outline-success me-1" onclick="editarProduto(${index})">Editar</button>
+                <button class="btn btn-sm btn-outline-danger" onclick="excluirProduto(${index})">Excluir</button>
+            </td>
+        </tr>
+    `).join("") : '<tr><td colspan="4" class="text-center text-secondary py-4">Nenhum produto cadastrado.</td></tr>'
 }
 
-const produtosLocalStorage = JSON.parse(localStorage.getItem("Produtos"))
-const listaProdutos = document.getElementById("itens")
-// Usar o .map() para escrever no html os produtos
-// '' apóstrofo ou aspas simples
-// "" aspas duplas
-// `` crase ${variavel}
-listaProdutos.innerHTML = 
-produtosLocalStorage.map((produto, index) => `
-    <li>
-        ${index} - ${produto.nome} 
-        <button onclick="excluirProduto(${index})" >x</button>
-        <button onclick="editarProduto(${index})">Editar</button>
-    </li>
-`).join("")
-
+formCadastro.onsubmit = event => {
+    event.preventDefault()
+    const produto = {
+        nome: document.getElementById("nome").value.trim(),
+        preco: Number(document.getElementById("preco").value),
+        categoria: document.getElementById("categoria").value.trim()
+    }
+    if (indiceEditando !== null) produtosLocalStorage[indiceEditando] = produto
+    else produtosLocalStorage.push(produto)
+    localStorage.setItem("Produtos", JSON.stringify(produtosLocalStorage))
+    indiceEditando = null
+    formCadastro.reset()
+    renderizarProdutos()
+}
+formCadastro.onreset = () => { indiceEditando = null }
 
 function excluirProduto(index) {
-    console.log(`Vamos excluir o produto ${index}`)
+    if (!confirm("Deseja excluir este produto?")) return
     produtosLocalStorage.splice(index, 1)
     localStorage.setItem("Produtos", JSON.stringify(produtosLocalStorage))
-    location.reload()
+    renderizarProdutos()
 }
-
 function editarProduto(index) {
-    console.log(produtosLocalStorage[index])
     const produto = produtosLocalStorage[index]
-
     document.getElementById("nome").value = produto.nome
     document.getElementById("preco").value = produto.preco
     document.getElementById("categoria").value = produto.categoria
-    isEditando = index
+    indiceEditando = index
+    formCadastro.scrollIntoView({ behavior: "smooth", block: "center" })
 }
+renderizarProdutos()
