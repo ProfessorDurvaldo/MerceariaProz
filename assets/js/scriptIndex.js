@@ -15,3 +15,14 @@ lista.innerHTML = produtos.length ? produtos.map(produto => `
         </article>
     </div>
 `).join("") : '<div class="col-12"><div class="empty-state">Nenhum produto cadastrado ainda.</div></div>'
+
+// passo 1 pegar o select do html
+const filtroCategoria = document.getElementById("filtroCategoria")
+// passo 2 pegar as categorias e transforma-las em unicas
+const categorias = produtos.map((produto) => produto.categoria)
+const categoriasUnicas = [...new Set(categorias)]
+
+// passo 3 escrever as categorias na tela
+filtroCategoria.innerHTML += categoriasUnicas.map(categoria => `
+    <option>${categoria}</option>
+`).join("")
